@@ -16,8 +16,9 @@ A first ruleset for the Quickstart
     }
 
     monkey = function(name) {
-      name.defaultsTo("Monkey");
-      msg = "Hello " + name;
+      msg = (name) => "Hello " + name | "Hello Monkey";
+      //monkey_name = name.defaultsTo("Monkey").klog("our passed in name: ");
+      //msg = "Hello " + monkey_name;
       msg
     }
 
@@ -35,9 +36,10 @@ A first ruleset for the Quickstart
     select when echo monkey
 
     pre {
-      name = event:attr("name").defaultsTo("Monkey").klog("our passed in name: ")
+      name = (event:attr("name") => event:attr("name") | "Monkey").klog("our passed in name: ")
+      //name = event:attr("name").defaultsTo("Monkey").klog("our passed in name: ")
     }
-    send_directive("say", {"something": "Hello Monkey"})
+    send_directive("say", {"something": "Hello " + name})
   }
   
   rule hello_world {
