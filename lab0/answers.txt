@@ -1,0 +1,22 @@
+### Answers to Questions###
+
+### 1 ###
+file:///home/allison/pico/hello_world.krl
+
+### 2 ###
+# After messing up KRL (deleted "when echo hello")
+
+allison@tie-fighter:~/pico$ git commit
+Parse errors in hello_world.krl:
+Error: No possible parsings
+:21:5
+ 
+    send_directive("say", {"something": "Hello World"})
+    ^
+
+You can disable checking by setting the hook.allownoparse to true
+
+
+
+### 3 ###
+port 8080
