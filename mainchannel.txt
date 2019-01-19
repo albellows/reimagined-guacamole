@@ -1,0 +1,1 @@
+{"directives":[{"options":{"something":"Hello World"},"name":"say","meta":{"rid":"hello_world","rule_name":"hello_world","txn_id":"cjr3txc6i001hetw7tis7lhl1","eid":"1556"}}]}
