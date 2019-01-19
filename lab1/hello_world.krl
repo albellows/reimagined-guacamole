@@ -6,7 +6,7 @@ A first ruleset for the Quickstart
 >>
     author "Allison Bellows"
     logging on
-    shares hello, __testing
+    shares hello, monkey, __testing
   }
   
   global {
