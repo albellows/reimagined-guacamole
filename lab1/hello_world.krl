@@ -15,8 +15,8 @@ A first ruleset for the Quickstart
       msg
     }
 
-    monkey = function(obj) {
-      name = obj.defaultsTo("Monkey");
+    monkey = function(name) {
+      name.defaultsTo("Monkey");
       msg = "Hello " + name;
       msg
     }
