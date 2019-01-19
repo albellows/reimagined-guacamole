@@ -15,12 +15,22 @@ A first ruleset for the Quickstart
       msg
     }
 
-    
     __testing = { "queries": [ { "name": "hello", "args": [ "obj" ] },
                               { "name": "__testing" } ],
                   "events": [ { "domain": "echo", "type": "hello" ,
+                                "attrs": [ "name" ] },
+                              { "domain": "echo", "type": "monkey" ,
                                 "attrs": [ "name" ] } ]
                 }
+  }
+
+  rule hello_monkey {
+    select when echo monkey
+
+    pre {
+      name = event:attr("name").defaultsTo("Monkey").klog("our passed in name: ")
+    }
+    send_directive("say", {"something": "Hello Monkey"})
   }
   
   rule hello_world {
