@@ -15,8 +15,15 @@ A first ruleset for the Quickstart
       msg
     }
 
+    monkey = function(obj) {
+      name = obj.defaultsTo("Monkey");
+      msg = "Hello " + obj;
+      msg
+    }
+
     __testing = { "queries": [ { "name": "hello", "args": [ "obj" ] },
-                              { "name": "__testing" } ],
+                              { "name": "monkey", "args": [ "name" ]},
+                              { "name": "__testing" }],
                   "events": [ { "domain": "echo", "type": "hello" ,
                                 "attrs": [ "name" ] },
                               { "domain": "echo", "type": "monkey" ,
