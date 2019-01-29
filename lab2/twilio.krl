@@ -3,7 +3,8 @@ ruleset twilio {
         configure using account_sid = ""
                         auth_token = ""
         provides
-            send_sms
+            send_sms,
+            messages
     }
 
     global {
