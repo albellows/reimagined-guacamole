@@ -1,5 +1,10 @@
 ruleset wovyn_base {
   meta {
+  description <<
+wovyn
+>>
+    author "Allison Bellows"
+    logging on
   }
 
   rule process_heartbeat {
