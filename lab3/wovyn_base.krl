@@ -1,7 +1,9 @@
 ruleset wovyn_base {
   meta {
     use module twilio
-    use module io.picolabs.subscription alias subs
+    use module keys
+      with account_sid = keys:twilio{"account_sid"}
+           auth_token = keys:twilio{"auth_token"}
   }
 
 global {
