@@ -27,7 +27,7 @@ rule find_high_temps {
     if (event:attr("temperature").any(function(x){
       x{"temperatureF"} > temperature_threshold
     })) then
-      send_directive("say", "High temp found")
+      send_directive("say", {"something": "High temp found"})
     fired {
       raise wovyn event "threshold_violation" attributes event:attrs
     }
