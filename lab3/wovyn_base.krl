@@ -1,7 +1,5 @@
 ruleset wovyn_base {
   meta {
-    use module sensor_profile
-    use module io.picolabs.subscription alias subs
   }
 
   rule process_heartbeat {
