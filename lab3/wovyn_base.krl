@@ -25,7 +25,7 @@ global {
 rule find_high_temps {
     select when wovyn new_temperature_reading
     if (event:attr("temperature").any(function(x){
-      x{"temperatureF"} > sensor_profile:query{"temperature_threshold"}
+      x{"temperatureF"} > temperature_threshold
     })) then
       send_directive("say", "High temp found")
     fired {
