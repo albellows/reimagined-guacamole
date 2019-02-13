@@ -51,7 +51,7 @@ A first ruleset for the Quickstart
     pre {
       name = event:attr("name").defaultsTo(ent:name, "use stored name").klog("our passed in name: ")
     }
-    send_directive("say", {"something": "Hello World"})
+    send_directive("say", {"something": "Hello " + name})
   }
 
   rule store_name {
