@@ -28,6 +28,8 @@ A first ruleset for the Quickstart
                   "events": [ { "domain": "echo", "type": "hello" ,
                                 "attrs": [ "name" ] },
                               { "domain": "echo", "type": "monkey" ,
+                                "attrs": [ "name" ] },
+                              { "domain": "hello", "type": "name", 
                                 "attrs": [ "name" ] } ]
                 }
   }
