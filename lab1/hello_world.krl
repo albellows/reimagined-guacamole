@@ -22,16 +22,19 @@ A first ruleset for the Quickstart
       msg
     }
 
+    clear_name = { "_0": {"name": { "first": "GlaDOS", "last": ""} } }
+
     __testing = { "queries": [ { "name": "hello", "args": [ "obj" ] },
                               { "name": "monkey", "args": [ "name" ]},
                               { "name": "__testing" }],
                   "events": [ { "domain": "echo", "type": "hello" ,
-                                "attrs": [ "name" ] },
+                                "attrs": [ "id" ] },
                               { "domain": "echo", "type": "monkey" ,
                                 "attrs": [ "name" ] },
                               { "domain": "hello", "type": "name", 
                                 "attrs": [ "name" ] },
-                              { "domain": "echo", "type": "hello"}]
+                              { "domain": "echo", "type": "hello"},
+                              { "domain": "hello", "type": "clear"} ]
                 }
   }
 
@@ -49,7 +52,10 @@ A first ruleset for the Quickstart
     select when echo hello
 
     pre {
-      name = event:attr("name").defaultsTo(ent:name, "use stored name").klog("our passed in name: ")
+      id = event:attr("id") || "_0"
+      first = ent:name{[id, "name", "first"]}
+      last = ent:name{[id, "name", "last"]}
+      name = first + " " + last
     }
     send_directive("say", {"something": "Hello " + name})
   }
@@ -57,11 +63,27 @@ A first ruleset for the Quickstart
   rule store_name {
     select when hello name
     pre {
-      name = event:attr("name").klog("our passed in name: ")
+      passed_id = event:attr("id").klog("our passed in id: ")
+      passed_first_name = event:attr("first_name").klog("our passed in first_name: ")
+      passed_last_name = event:attr("last_name").klog("our passed in last_name: ")
     }
-    send_directive("store_name", {"name":name})
+    send_directive("store_name", {
+      "id" : passed_id,
+      "first_name" : passed_first_name,
+      "last_name" : passed_last_name
+    })
     always {
-      ent:name := name
+      ent:name := ent:name.defaultsTo(clear_name, "initialization was needed");
+      ent:name := ent:name.put([passed_id, "name", "first"], passed_first_name)
+                          .put([passed_id, "name", "last"], passed_last_name)
+
+    }
+  }
+
+  rule clear_names {
+    select when hello clear
+    always {
+      ent:name := clear_name
     }
   }
   
