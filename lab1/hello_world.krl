@@ -30,7 +30,8 @@ A first ruleset for the Quickstart
                               { "domain": "echo", "type": "monkey" ,
                                 "attrs": [ "name" ] },
                               { "domain": "hello", "type": "name", 
-                                "attrs": [ "name" ] } ]
+                                "attrs": [ "name" ] },
+                              { "domain": "echo", "type": "hello"}]
                 }
   }
 
