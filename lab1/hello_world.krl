@@ -48,7 +48,7 @@ A first ruleset for the Quickstart
     select when echo hello
 
     pre {
-      name = event:attr("name").klog("our passed in name: ")
+      name = event:attr("name").defaultsTo(ent:name, "use stored name").klog("our passed in name: ")
     }
     send_directive("say", {"something": "Hello World"})
   }
