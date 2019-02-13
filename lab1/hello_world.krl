@@ -24,6 +24,19 @@ A first ruleset for the Quickstart
 
     clear_name = { "_0": {"name": { "first": "GlaDOS", "last": ""} } }
 
+    name = function(id) {
+      all_users = users();
+      nameObj = id => all_users{[id, "name"]}
+                    | { "first": "HAL", "last": "9000"};
+      first = nameObj{"first"};
+      last = nameObj{"last"};
+      first + " " + last
+    }
+
+    users = function() {
+      ent:name
+    }
+
     __testing = { "queries": [ { "name": "hello", "args": [ "obj" ] },
                               { "name": "monkey", "args": [ "name" ]},
                               { "name": "__testing" }],
@@ -32,7 +45,7 @@ A first ruleset for the Quickstart
                               { "domain": "echo", "type": "monkey" ,
                                 "attrs": [ "name" ] },
                               { "domain": "hello", "type": "name", 
-                                "attrs": [ "name" ] },
+                                "attrs": [ "id", "first_name", "last_name" ] },
                               { "domain": "echo", "type": "hello"},
                               { "domain": "hello", "type": "clear"} ]
                 }
@@ -53,11 +66,13 @@ A first ruleset for the Quickstart
 
     pre {
       id = event:attr("id") || "_0"
-      first = ent:name{[id, "name", "first"]}
-      last = ent:name{[id, "name", "last"]}
-      name = first + " " + last
+      name = name(id)
+      visits = ent:name{[id, "visits"]}.defaultsTo(0)
     }
     send_directive("say", {"something": "Hello " + name})
+    fired {
+      ent:name := ent:name.put([id, "visits"], visits + 1)
+    }
   }
 
   rule store_name {
