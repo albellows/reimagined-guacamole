@@ -1,8 +1,21 @@
 ruleset temperature_store {
 
+    meta {
+        provides temperatures, threshold_violation, inrange_temperatures
+        shares temperatures, threshold_violation, inrange_temperatures
+    }
+
     global {
         temperatures = function() {
             ent:temp_store
+        }
+
+        threshold_violation = function() {
+            ent:viol_store
+        }
+
+        inrange_temperatures = function() {
+            ent:temp_store.difference(ent:viol_store)
         }
 
 
