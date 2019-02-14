@@ -1,8 +1,8 @@
 ruleset temperature_store {
 
     meta {
-        provides temperatures, threshold_violation, inrange_temperatures
-        shares temperatures, threshold_violation, inrange_temperatures
+        provides temperatures, threshold_violations, inrange_temperatures
+        shares temperatures, threshold_violations, inrange_temperatures
     }
 
     global {
