@@ -21,21 +21,6 @@ ruleset temperature_store {
 
     }
 
-    rule test_temperatures {
-        select when test temperatures
-        send_directive("say", {"something" : temperatures()})
-    }
-
-    rule test_threshold_violations {
-        select when test violations
-        send_directive("say", {"something" : threshold_violations()})
-    }
-
-    rule test_inrange_temperatures {
-        select when test inranges 
-        send_directive("say", {"something" : inrange_temperatures()})
-    }
-
     rule collect_temperatures {
         select when wovyn new_temperature_reading
         always {
