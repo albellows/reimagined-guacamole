@@ -26,7 +26,7 @@ global {
 rule find_high_temps {
     select when wovyn new_temperature_reading
     if (event:attr("temperature").any(function(x){
-      x{"temperatureF"} > sensor_profile:query{"threshold"}
+      x{"temperatureF"} > (sensor_profile:query(){"threshold"}).klog("threshold: ")
     })) then
       send_directive("say", {"something": "High temp found"})
     fired {
@@ -36,7 +36,7 @@ rule find_high_temps {
 
   rule threshold_notification {
     select when wovyn threshold_violation
-    twilio:send_sms(sensor_profile:query{"number"}, from_phone_number, "High temperature!")
+    twilio:send_sms((sensor_profile:query(){"number"}).klog("number: "), from_phone_number, "High temperature!")
   }
 
 }
