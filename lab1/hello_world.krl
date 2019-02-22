@@ -21,7 +21,6 @@ A first ruleset for the Quickstart
       //msg = "Hello " + monkey_name;
       msg
     }
-
     clear_name = { "_0": {"name": { "first": "GlaDOS", "last": ""} } }
 
     name = function(id) {
