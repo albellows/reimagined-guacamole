@@ -1,7 +1,6 @@
 ruleset manage_sensors {
     meta {
         use module io.picolabs.wrangler alias wrangler
-        use module io.picolabs.subscription alias subs
         shares sensors, temperatures, reports
     }
 
@@ -13,10 +12,11 @@ ruleset manage_sensors {
         }
 
         temperatures = function() {
-            temps = ent:sensors.values().map(function(eci) {
-                wrangler:skyQuery(eci, "temperature_store", "temperatures")
+            //names = ent:sensors.keys;
+            temps = ent:sensors.map(function(eci, name) {
+                wrangler:skyQuery(eci, "temperature_store", "temperatures").reduce(function(a,b) {b})
             });
-            temps.reduce(function(a,b) {a.append(b)}, [])
+            temps
         }
 
     }
@@ -31,7 +31,7 @@ ruleset manage_sensors {
         notfired {
             raise wrangler event "child_creation" attributes {
                 "name": name,
-                "rids": ["temperature_store", "wovyn_base", "sensor_profile", "io.picolabs.subscription", "auto_accept", "gossip"]
+                "rids": ["temperature_store", "wovyn_base", "sensor_profile"]
             }
         }
     }
@@ -54,14 +54,7 @@ ruleset manage_sensors {
             }
         })
         always {
-            raise wrangler event "subscription" attributes {
-                "name": name,
-                "Rx_role": "manager",
-                "Tx_role": "sensor",
-                "channel_type": "subscription",
-                "wellKnown_Tx": eci
-            };
-            ent:sensors := ent:sensors.put(event:attr("name"), eci)
+            ent:sensors{event:attr("name")} := eci
         }
     }
 
