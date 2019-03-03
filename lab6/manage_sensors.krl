@@ -5,7 +5,7 @@ ruleset manage_sensors {
     }
 
     global {
-        threshold = 75
+        threshold = 78
 
         sensors = function() {
             ent:sensors
