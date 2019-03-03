@@ -1,7 +1,7 @@
 ruleset manage_sensors {
     meta {
         use module io.picolabs.wrangler alias wrangler
-        shares sensors, temperatures, reports
+        shares sensors, temperatures
     }
 
     global {
