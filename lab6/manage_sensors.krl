@@ -13,10 +13,9 @@ ruleset manage_sensors {
         }
 
         temperatures = function() {
-            sensors = subs:established("Tx_role", "sensor");
-            temps = sensors.map(function(sensor) {
-                wrangler:skyQuery(sensor{"Tx"}, "temperature_store", "temperatures")
-            }).filter(function(x){not (x >< "error")});
+            temps = ent:sensors.values().map(function(eci) {
+                wrangler:skyQuery(eci, "temperature_store", "temperatures")
+            });
             temps.reduce(function(a,b) {a.append(b)}, [])
         }
 
@@ -51,7 +50,7 @@ ruleset manage_sensors {
             "attrs": {
                 "name": name,
                 "threshold": threshold,
-                "number": "not my real number"
+                "number": "+13192109565"
             }
         })
         always {
@@ -90,3 +89,6 @@ ruleset manage_sensors {
 
 
 }
+
+
+
