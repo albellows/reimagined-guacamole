@@ -1,7 +1,7 @@
 ruleset manage_sensors {
     meta {
         use module io.picolabs.wrangler alias wrangler
-        use module io.picolabs.subscriptions alias subs
+        use module io.picolabs.subscription alias subs
         shares sensors, temperatures
     }
 
