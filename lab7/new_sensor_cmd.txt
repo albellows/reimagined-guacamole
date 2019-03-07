@@ -1,0 +1,1 @@
+curl http://localhost:8080/sky/event/6sdiougKfkS7jHad1a6chr/17/sensor/new_sensor?name=

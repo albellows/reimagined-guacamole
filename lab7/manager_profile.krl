@@ -1,10 +1,5 @@
 ruleset manager_profile {
     meta {
-        use module keys
-        use module twilio
-            with account_sid = keys:twilio{"account_sid"}
-                auth_token = keys:twilio{"auth_token"}
-
         provides query
         shares query
     }
@@ -16,7 +11,8 @@ ruleset manager_profile {
             {
                 "number": ent:number,
                 "location": ent:location,
-                "name": ent:name
+                "name": ent:name,
+                "from_number" : from_number
             }
         }
     }
@@ -29,16 +25,13 @@ ruleset manager_profile {
     }
 
 
-    rule threshold_notification {
-        select when manager threshold_violation
-        twilio:send_sms(ent:number, from_number, "High temperature!")
-    }
-
     rule initialization {
         select when wrangler ruleset_added where rids >< meta:rid
         if ent:number.isnull() then noop();
         fired {
             ent:number := "+13192109565";
+            ent:location := "Provo";
+            ent:name := "wovyn"
         }
     }
 
