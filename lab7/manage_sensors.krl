@@ -88,7 +88,7 @@ ruleset manage_sensors {
         select when sensor introduce
         pre {
             eci = event:attr("eci")
-            name = event:attr("name")
+            name = event:attr("name").klog("Name in introduce event: ")
             host = event:attr("host")
             exists = ent:sensors >< name
         }
