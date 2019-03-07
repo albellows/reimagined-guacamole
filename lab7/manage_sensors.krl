@@ -20,7 +20,7 @@ ruleset manage_sensors {
             sensors = sensor_subs().klog("Temperatures() subs: ");
             temps = sensors.map(function(sensor) {
                 wrangler:skyQuery(sensor{"Tx"}, "temperature_store", "temperatures")
-            });
+            }).klog("Temperatures() temps: ");
             temps.reduce(function(a,b) {b})
         }
 
