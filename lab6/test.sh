@@ -55,7 +55,7 @@ printf "\nDeleting $name1 (RIP):\n"
 curl http://localhost:8080/sky/event/VVyVkhSzpNj6BXEWaeiJ5K/18/sensor/unneeded_sensor?name=$name1 -w '\n'
 
 # get temps
-printf "\nGetting all temperature stores:"
+printf "\nGetting all temperature stores:\n"
 curl http://localhost:8080/sky/cloud/VVyVkhSzpNj6BXEWaeiJ5K/manage_sensors/temperatures -w '\n'
 
 # conclude

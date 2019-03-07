@@ -1,2 +1,0 @@
-curl -s http://localhost:8080/sky/event/VVyVkhSzpNj6BXEWaeiJ5K/17/sensor/new_sensor?name=wovboi 2>&1 | grep -oP '(?<="eci":").*?(?=")'
-
