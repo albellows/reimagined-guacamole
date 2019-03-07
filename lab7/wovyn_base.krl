@@ -2,9 +2,7 @@ ruleset wovyn_base {
   meta {
     use module sensor_profile
     use module keys
-    use module twilio
-      with account_sid = keys:twilio{"account_sid"}
-           auth_token = keys:twilio{"auth_token"}
+    use module io.picolabs.subscription alias subs
   }
 
 global {
@@ -36,7 +34,16 @@ rule find_high_temps {
 
   rule threshold_notification {
     select when wovyn threshold_violation
-    twilio:send_sms((sensor_profile:query(){"number"}).klog("number: "), from_phone_number, "High temperature!")
+    pre {
+      manager = subs:established("Tx_role", "controller").first();
+    }
+    event:send({
+      "eci" : manager{"Tx"},
+      "eid" : "threshold_violation",
+      "domain" : "manager",
+      "type" : "threshold_violation",
+      "attrs" : event:attrs
+    })
   }
 
 }

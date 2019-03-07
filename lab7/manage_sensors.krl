@@ -66,7 +66,7 @@ ruleset manage_sensors {
                 "Tx_role" : "sensor",
                 "channel_type" : "subscription",
                 "wellKnown_Tx" : eci
-            }
+            };
             ent:sensors{event:attr("name")} := eci
         }
     }
@@ -89,6 +89,7 @@ ruleset manage_sensors {
         pre {
             eci = event:attr("eci")
             name = event:attr("name")
+            host = event:attr("host")
             exists = ent:sensors >< name
         }
         if exists then send_directive("Sensor already exists");
@@ -99,7 +100,8 @@ ruleset manage_sensors {
                 "Tx_role" : sensor,
                 "channel_type" : subscription,
                 "wellKnown_Tx" : eci,
-            }
+                "Tx_host" : host
+            };
             ent:sensors{event:attr("name")} := eci
         }
     }
