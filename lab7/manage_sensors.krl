@@ -96,9 +96,9 @@ ruleset manage_sensors {
         notfired {
             raise wrangler event "subscription" attributes {
                 "name" : name,
-                "Rx_role" : controller,
-                "Tx_role" : sensor,
-                "channel_type" : subscription,
+                "Rx_role" : "controller",
+                "Tx_role" : "sensor",
+                "channel_type" : "subscription",
                 "wellKnown_Tx" : eci,
                 "Tx_host" : host
             };
