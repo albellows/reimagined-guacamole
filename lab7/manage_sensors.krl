@@ -18,7 +18,7 @@ ruleset manage_sensors {
 
         temperatures = function() {
             sensors = sensor_subs();
-            temps = sensors.map(function(eci, name) {
+            temps = sensors.map(function(sensor) {
                 wrangler:skyQuery(sensor{"Tx"}, "temperature_store", "temperatures")
             });
             temps.reduce(function(a,b) {b})

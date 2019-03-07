@@ -1,7 +1,6 @@
 ruleset wovyn_base {
   meta {
     use module sensor_profile
-    use module keys
     use module io.picolabs.subscription alias subs
   }
 
