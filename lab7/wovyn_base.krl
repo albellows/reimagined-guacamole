@@ -20,7 +20,7 @@ global {
     }
   }
 
-rule find_high_temps {
+  rule find_high_temps {
     select when wovyn new_temperature_reading
     if (event:attr("temperature").any(function(x){
       x{"temperatureF"} > (sensor_profile:query(){"threshold"}).klog("threshold: ")
@@ -33,16 +33,18 @@ rule find_high_temps {
 
   rule threshold_notification {
     select when wovyn threshold_violation
-    pre {
-      manager = subs:established("Tx_role", "controller").first();
-    }
-    event:send({
-      "eci" : manager{"Tx"},
-      "eid" : "threshold_violation",
-      "domain" : "manager",
-      "type" : "threshold_violation",
-      "attrs" : event:attrs
-    })
+    foreach subs:established("Tx_role", "controller") setting (subscription)
+      pre {
+        s = subscription.klog("subs: ")
+        attributes = event:attrs
+      }
+      event:send({
+        "eci" : subscription{"Tx"},
+        "eid" : "threshold_violation",
+        "domain" : "manager",
+        "type" : "threshold_violation",
+        "attrs" : attributes
+      })
   }
 
 }
