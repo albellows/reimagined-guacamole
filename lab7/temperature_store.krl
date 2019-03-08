@@ -7,15 +7,15 @@ ruleset temperature_store {
 
     global {
         temperatures = function() {
-            ent:temp_store
+            ent:temp_store.defaultsTo([])
         }
 
         threshold_violations = function() {
-            ent:viol_store
+            ent:viol_store.defaultsTo([])
         }
 
         inrange_temperatures = function() {
-            ent:temp_store.difference(ent:viol_store)
+            temperatures().difference(threshold_violations())
         }
 
 
@@ -24,16 +24,14 @@ ruleset temperature_store {
     rule collect_temperatures {
         select when wovyn new_temperature_reading
         always {
-            ent:temp_store := ent:temp_store.append(event:attr("temperature").map(function(x) {
-                {"temperature": x{"temperatureF"}, "timestamp": event:attr("timestamp")}
-            }))
+            ent:temp_store := temperatures().append({"temperature": event:attr("temperature")["temperatureF"], "timestamp": event:attr("timestamp")})
         }
     }
 
     rule collect_threshold_violations {
         select when wovyn threshold_violation
         always {
-            ent:viol_store := ent:viol_store.append(event:attr("temperature").map(function(x) {
+            ent:viol_store := threshold_violations().append(event:attr("temperature").map(function(x) {
                 {"temperature": x{"temperatureF"}, "timestamp": event:attr("timestamp")}
             }))
         }
@@ -42,8 +40,8 @@ ruleset temperature_store {
     rule clear_temperatures {
         select when sensor reading_reset
         always {
-            ent:temp_store := [];
-            ent:viol_store := []
+            ent:temp_store := null;
+            ent:viol_store := null
         }
     }
 }

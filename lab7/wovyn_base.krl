@@ -14,7 +14,7 @@ global {
       send_directive("say", {})
     fired {
       raise wovyn event "new_temperature_reading" attributes {
-        "temperature": event:attr("genericThing"){"data"}{"temperature"},
+        "temperature": event:attr("genericThing"){"data"}{"temperature"}[0],
         "timestamp": time:now()
       }
     }
