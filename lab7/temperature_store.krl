@@ -26,7 +26,7 @@ ruleset temperature_store {
         always {
             ent:temp_store := ent:temp_store.append(event:attr("temperature").map(function(x) {
                 {"temperature": x{"temperatureF"}, "timestamp": event:attr("timestamp")}
-            }).reduce(function(a,b) {b}))
+            }))
         }
     }
 

@@ -20,10 +20,10 @@ ruleset manage_sensors {
 
             sensor_ecis = sensor_subs().map(function(sensor) {
                 sensor{"Tx"}
-            }).klog("Temperatures() ecis: ");
+            }).values().klog("Temperatures() ecis: ");
 
             temps = sensor_ecis.map(function(eci) {
-                wrangler:skyQuery(eci, "temperature_store", "temperatures")
+                {}.put(eci, wrangler:skyQuery(eci, "temperature_store", "temperatures"))
             });
             temps
         }
