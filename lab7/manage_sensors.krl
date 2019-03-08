@@ -18,7 +18,7 @@ ruleset manage_sensors {
 
         temperatures = function() {
             sensors = sensor_subs().klog("Temperatures() subs: ");
-            lol = sensors().klog("Temperatures() ent:sensors: ");
+            lol = ent:sensors.klog("Temperatures() ent:sensors: ");
             temps = sensors.map(function(sensor) {
                 wrangler:skyQuery(sensor{"Tx"}, "temperature_store", "temperatures")
             }).klog("Temperatures() temps: ");
