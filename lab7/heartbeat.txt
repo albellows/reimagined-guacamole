@@ -1,0 +1,1 @@
+curl http://localhost:8080/sky/event/$eci/5/wovyn/heartbeat -d "`cat tempData.json`" -H "Content-Type: application/json" -w '\n'
