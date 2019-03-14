@@ -12,18 +12,23 @@ ruleset manage_sensors {
             ent:sensors
         }
 
+        sensor_ecis = function() {
+            ent:sensor_ecis
+        }
+
         sensor_subs = function() {
             subs:established("Tx_role","sensor")
         }
 
+
         temperatures = function() {
 
-            sensor_ecis = sensor_subs().map(function(sensor) {
-                sensor{"Tx"}
-            }).values().klog("Temperatures() ecis: ");
+            sensors = sensor_subs.map(function(sensor) {
+                {}.put(sensor_ecis{sensor{"Tx"}})
+            });
 
-            temps = sensor_ecis.map(function(eci) {
-                {}.put(eci, wrangler:skyQuery(eci, "temperature_store", "temperatures"))
+            temps = sensors.map(function(sensor, eci) {
+                {}.put(wrangler:skyQuery(eci, "temperature_store", "temperatures", _host=sensor{"host"}))
             });
             temps
         }
@@ -71,7 +76,8 @@ ruleset manage_sensors {
                 "channel_type" : "subscription",
                 "wellKnown_Tx" : eci
             };
-            ent:sensors{event:attr("name")} := eci
+            ent:sensors{name} := { "eci": eci, "host": "http://localhost:8080" };
+            ent:sensor_ecis{eci} := {"name": name, "host": "http://localhost:8080"};
         }
     }
 
@@ -106,7 +112,8 @@ ruleset manage_sensors {
                 "wellKnown_Tx" : eci,
                 "Tx_host" : host
             };
-            ent:sensors{event:attr("name")} := eci
+            ent:sensors{name} := { "eci" : eci, "host" : host };
+            ent:sensor_ecis{eci} := {"name" : name, "host" : host };
         }
     }
 

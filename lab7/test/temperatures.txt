@@ -1,0 +1,1 @@
+curl http://localhost:8080/sky/cloud/6sdiougKfkS7jHad1a6chr/manage_sensors/temperatures -w '\n'

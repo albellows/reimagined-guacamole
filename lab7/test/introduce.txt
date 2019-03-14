@@ -1,0 +1,1 @@
+curl "http://localhost:8080/sky/event/6sdiougKfkS7jHad1a6chr/18/sensor/introduce?name=test22eci=6wPy4rwbdkiowvpUj7S98S&host=http://192.168.1.100:8080"
