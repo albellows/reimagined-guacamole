@@ -23,9 +23,9 @@ ruleset manage_sensors {
 
         temperatures = function() {
 
-            sensors = sensor_subs.map(function(sensor) {
-                {}.put(sensor_ecis{sensor{"Tx"}})
-            });
+            sensors = sensor_subs().klog("sensor:subs: ").map(function(sensor) {
+                {}.put(sensor_ecis(){sensor[0]{"Tx"}}.klog("here is an eci: "))
+            }).klog("sensors: ");
 
             temps = sensors.map(function(sensor, eci) {
                 {}.put(wrangler:skyQuery(eci, "temperature_store", "temperatures", _host=sensor{"host"}))
