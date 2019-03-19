@@ -28,7 +28,11 @@ ruleset manage_sensors {
             }).klog("sensors: ");
 
             temps = sensors.map(function(sensor) {
-                {}.put(wrangler:skyQuery(sensor{"eci"}, "temperature_store", "temperatures", _host=sensor{"host"}))
+              sensor.map(function(sensorInfo, eci) {
+                sensorInfo.klog("SENSORINFO: ");
+                eci.klog("ECI: ");
+                  {}.put(wrangler:skyQuery(eci, "temperature_store", "temperatures", _host=sensorInfo{"host"}))
+              })
             });
             temps
         }
@@ -76,7 +80,7 @@ ruleset manage_sensors {
                 "channel_type" : "subscription",
                 "wellKnown_Tx" : eci
             };
-            // put the Wellknown_Tx as the ECI
+            // put the Wellknwon_Tx as the ECI
             ent:sensors{name} := { "eci": eci, "host": "http://localhost:8080" };
         }
     }
@@ -90,7 +94,7 @@ ruleset manage_sensors {
         }
         noop();
         always {
-            ent:sensor_ecis.append({"eci": eci, "host": host})
+            ent:sensor_ecis{eci} := {"host": host}
         }
     }
 
@@ -131,7 +135,7 @@ ruleset manage_sensors {
 
     rule intialization {
         select when wrangler ruleset_added where rids >< meta:rid
-        if ent:sensors.isnull() && ent:sensor_ecis.isnull() then noop();
+        if ent:sensors.isnull() then noop();
         fired {
             ent:sensors := {};
             ent:sensor_ecis := {};
