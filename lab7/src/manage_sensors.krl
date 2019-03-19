@@ -23,12 +23,12 @@ ruleset manage_sensors {
 
         temperatures = function() {
 
-            sensors = sensor_subs().klog("sensor:subs: ").map(function(sensor) {
-                {}.put(sensor_ecis(){sensor[0]{"Tx"}}.klog("here is an eci: "))
+            sensors = sensor_subs().klog("sensor_subs: ").map(function(sensor) {
+                {}.put(sensor{"Tx"}, sensor_ecis().klog("sensor_ecis:" ){sensor{"Tx"}.klog("This should be Tx: ")})
             }).klog("sensors: ");
 
-            temps = sensors.map(function(sensor, eci) {
-                {}.put(wrangler:skyQuery(eci, "temperature_store", "temperatures", _host=sensor{"host"}))
+            temps = sensors.map(function(sensor) {
+                {}.put(wrangler:skyQuery(sensor{"eci"}, "temperature_store", "temperatures", _host=sensor{"host"}))
             });
             temps
         }
@@ -76,8 +76,21 @@ ruleset manage_sensors {
                 "channel_type" : "subscription",
                 "wellKnown_Tx" : eci
             };
+            // put the Wellknown_Tx as the ECI
             ent:sensors{name} := { "eci": eci, "host": "http://localhost:8080" };
-            ent:sensor_ecis{eci} := {"name": name, "host": "http://localhost:8080"};
+        }
+    }
+
+    // after wrangler has added a subscription, put subscription info in subscription entity variables
+    rule subscription_added {
+        select when wrangler subscription_added
+        pre {
+            eci = event:attr("Tx")
+            host = event:attr("bus"{"Tx_host"}).defaultsTo("http://localhost:8080")
+        }
+        noop();
+        always {
+            ent:sensor_ecis.append({"eci": eci, "host": host})
         }
     }
 
@@ -113,15 +126,15 @@ ruleset manage_sensors {
                 "Tx_host" : host
             };
             ent:sensors{name} := { "eci" : eci, "host" : host };
-            ent:sensor_ecis{eci} := {"name" : name, "host" : host };
         }
     }
 
     rule intialization {
         select when wrangler ruleset_added where rids >< meta:rid
-        if ent:sensors.isnull() then noop();
+        if ent:sensors.isnull() && ent:sensor_ecis.isnull() then noop();
         fired {
-            ent:sensors := {}
+            ent:sensors := {};
+            ent:sensor_ecis := {};
         }
     }
 
