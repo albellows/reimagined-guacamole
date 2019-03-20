@@ -23,8 +23,8 @@ ruleset manage_sensors {
 
         temperatures = function() {
 
-            sensors = sensor_subs().klog("sensor_subs: ").map(function(sensor) {
-                {}.put(sensor{"Tx"}, sensor_ecis().klog("sensor_ecis:" ){sensor{"Tx"}})
+            sensors = sensor_subs().map(function(sensor) {
+                {}.put(sensor{"Tx"}, sensor_ecis(){sensor{"Tx"}})
             }).klog("sensors: ");
 
             temps = sensors.map(function(sensor) {
