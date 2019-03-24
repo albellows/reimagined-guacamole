@@ -3,14 +3,14 @@
 ## URLs
 
 > **New/Modified** </br>
-> [manage_sensors](https://raw.githubusercontent.com/albellows/reimagined-guacamole/master/lab7/manage_sensors.krl) </br>
-> [manager_profile](https://raw.githubusercontent.com/albellows/reimagined-guacamole/master/lab7/manager_profile.krl) </br>
-> [auto_accept](https://raw.githubusercontent.com/albellows/reimagined-guacamole/master/lab7/auto_accept.krl) </br>
-> [wovyn_base](https://raw.githubusercontent.com/albellows/reimagined-guacamole/master/lab7/wovyn_base.krl)
+> [manage_sensors](https://raw.githubusercontent.com/albellows/reimagined-guacamole/master/lab7/src/manage_sensors.krl) </br>
+> [manager_profile](https://raw.githubusercontent.com/albellows/reimagined-guacamole/master/lab7/src/manager_profile.krl) </br>
+> [auto_accept](https://raw.githubusercontent.com/albellows/reimagined-guacamole/master/lab7/src/auto_accept.krl) </br>
+> [wovyn_base](https://raw.githubusercontent.com/albellows/reimagined-guacamole/master/lab7/src/wovyn_base.krl)
 
 > **Old** </br>
-> [temperature_store](https://raw.githubusercontent.com/albellows/reimagined-guacamole/master/lab7/temperature_store.krl) </br>
-> [sensor_profile](https://raw.githubusercontent.com/albellows/reimagined-guacamole/master/lab7/sensor_profile.krl)
+> [temperature_store](https://raw.githubusercontent.com/albellows/reimagined-guacamole/master/lab7/src/temperature_store.krl) </br>
+> [sensor_profile](https://raw.githubusercontent.com/albellows/reimagined-guacamole/master/lab7/src/sensor_profile.krl)
 
 ## Pico Relationship Diagram
 
