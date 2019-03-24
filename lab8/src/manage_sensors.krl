@@ -19,19 +19,15 @@ ruleset manage_sensors {
         sensor_subs = function() {
             subs:established("Tx_role","sensor")
         }
-
-        reports = function() {
-            ent:reports.defaultsTo({})
-        }
-
-        rcn = function() {
-            ent:rcn.defaultsTo(0)
+        
+        max = function(x) {
+          x.sort("reverse").klog("reversed: ")[0]
         }
 
         latest_reports = function() {
-            max = max(reports.keys());
+            max = max(ent:reports.keys().klog("keys: ")).klog("max: ");
 
-            reports().filter(function(v,k) {
+            ent:reports.defaultsTo({}).filter(function(v,k) {
                 k > (max - 5)
             }).values()
 
@@ -58,27 +54,30 @@ ruleset manage_sensors {
     rule request_reports {
         select when sensor request_reports
         foreach subs:established("Tx_role", "sensor") setting (sensor)
-        pre {
-            eci = sensor{"Tx"}
-            rcn = rcn()
-            reports = reports()
-            originator_eci = sensor{"Rx"}
-        }
-        event:send({
-            "eci" : eci,
-            "eid" : 29,
-            "domain" : "wovyn",
-            "type" : "report_requested",
-            "attrs": {
-                "originator_eci" : originator_eci,
-                "reporter_eci" : eci,
-                "rcn" : rcn
-            }
-        })
-        always {
-            ent:reports{rcn} := {"responding" : 0, "temperatures" : []};
-            ent:rcn := rcn + 1 on final
-        }
+          pre {
+              eci = sensor{"Tx"}
+              rcn = ent:rcn.defaultsTo(0).klog("2")
+              reports = ent:reports.defaultsTo({})
+              originator_eci = sensor{"Rx"}
+              num_sensors = ent:num_sensors.defaultsTo(0)
+          }
+          event:send({
+              "eci" : eci.klog("about to send for eci: "),
+              "eid" : 29,
+              "domain" : "wovyn",
+              "type" : "report_requested",
+              "attrs": {
+                  "originator_eci" : originator_eci,
+                  "reporter_eci" : eci,
+                  "rcn" : rcn
+              }
+          })
+          always {
+              ent:num_sensors := ent:num_sensors + 1;
+              ent:reports{rcn} := {"temperature_sensors": num_sensors, "responding" : 0, "temperatures" : []} on final;
+              ent:rcn := rcn + 1 on final;
+              ent:num_sensors := null on final;
+          }
     }
 
     rule report_recieved {
