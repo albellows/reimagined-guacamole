@@ -59,7 +59,7 @@ ruleset manage_sensors {
               rcn = ent:rcn.defaultsTo(0).klog("2")
               reports = ent:reports.defaultsTo({})
               originator_eci = sensor{"Rx"}
-              num_sensors = ent:num_sensors.defaultsTo(0)
+              num_sensors = subs:established("Tx_role", "sensor").length()
           }
           event:send({
               "eci" : eci.klog("about to send for eci: "),
@@ -73,10 +73,8 @@ ruleset manage_sensors {
               }
           })
           always {
-              ent:num_sensors := ent:num_sensors + 1;
               ent:reports{rcn} := {"temperature_sensors": num_sensors, "responding" : 0, "temperatures" : []} on final;
               ent:rcn := rcn + 1 on final;
-              ent:num_sensors := null on final;
           }
     }
 
@@ -203,3 +201,4 @@ ruleset manage_sensors {
 
 
 
+    
